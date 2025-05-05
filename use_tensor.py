@@ -3,8 +3,10 @@ import math
 
 
 dtype = torch.float
-# device = torch.device("cpu")
-device = torch.device("cuda") # Uncomment this to run on GPU
+device = torch.accelerator.current_accelerator().type if torch.accelerator.is_available() else "cpu"
+print(f"Using {device} device")
+torch.set_default_device(device)
+
 
 # Create random input and output data
 x = torch.linspace(-math.pi, math.pi, 2000, device=device, dtype=dtype)
